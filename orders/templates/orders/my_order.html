@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="flex items-center justify-center">
+    <div
+        class="hover:animate-background rounded-xl bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]  max-w-[500px] w-full"
+        >
+        <div class="rounded-[10px] bg-white p-4 !pt-20 sm:p-6">
+            <a href="#">
+                <h3 class="mt-0.5 text-lg font-medium text-gray-900">
+                    Detalles de la orden
+                </h3>
+            </a>
+            Usuario: <span class="text-gray-500"> {{ order.user.username|capfirst }}</span>
+            <p>Fecha de la orden:
+                <time datetime="{{ order.order_date|date }}" class="text-gray-500"> {{ order.order_date|date }} </time>
+            </p>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                    <thead>
+                        <tr>
+                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-left">Nombre</th>
+                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-left">Precio</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-200">
+                        {% for product_order in order.orderproduct_set.all %}
+                        <tr>
+                            <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ product_order.product.name }}</td>
+                            <td class="whitespace-nowrap px-4 py-2 text-gray-700">${{ product_order.product.price }}</td>
+                        </tr>
+
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center">No hay productos en la orden</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
